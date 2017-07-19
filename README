@@ -1,0 +1,43 @@
+Bsproc is a bayesian spam recognition and filtering program based on
+Paul Graham's essay, A Plan For Spam(http://www.paulgraham.com/spam.html).
+This implementation includes tweaks to the lexical analysis of mail that
+are borrowed from Eric S. Raymond's bogofilter program.
+
+Build the fast hash extension first.
+$ cd ext
+$ ruby extconf.rb
+$ make
+# make install
+
+Run ruby install.rb to copy bayespam.rb to the appropriate place.
+# ruby install.rb
+
+Put bsproc somewhere in $PATH.
+# cp bsproc /usr/local/bin
+
+Create the following to .procmailrc
+
+## Begin .procmailrc
+LOGFILE=$HOME/procmail.log
+LOCKFILE=$HOME/procmail.lock
+
+:0HB:
+* ? bsproc
+mail/spam
+## End .procmailrc
+
+If you're using qmail for your smtp server then you have to create
+a .qmail file with the following content:
+|/usr/bin/qmail-procmail
+
+Run bsproc to create your .probcache.db file.
+bsproc -i -t spam_file -c good_file
+
+Run bsproc on a sample message to test it. Anything with a probability of
+less than .9 is considered non-spam.
+bsproc test_message
+test_message => .01
+
+Enjoy spam free e-mail! Note: filtering improves as message corpus size
+increases. Small corpuses lead to inaccurate results.
+USE AT YOUR OWN RISK!

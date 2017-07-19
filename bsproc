@@ -1,0 +1,88 @@
+#!/usr/bin/env ruby
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+
+require 'bayespam.rb'
+require 'getoptlong'
+
+opts = GetoptLong.new(
+  [ "--index",     "-i",     GetoptLong::OPTIONAL_ARGUMENT],
+  [ "--taintmail", "-t",     GetoptLong::REQUIRED_ARGUMENT],
+  [ "--cleanmail", "-c",     GetoptLong::REQUIRED_ARGUMENT],
+  [ "--help",      "-h",     GetoptLong::NO_ARGUMENT],
+  [ "--quiet",     "-q",     GetoptLong::NO_ARGUMENT]
+)
+
+def usage 
+  puts "Incomplete Usage: bsproc -i -t spam_file -c good_file (create an index) or",
+        "       bsproc message (test spam probability) or",
+        "       bsproc < some_message (set return value for procmail)"
+end
+
+dbfile = "#{ENV['HOME']}/.probcache.db" 
+quiet = false
+taintmail = ''
+cleanmail = ''
+
+opts.each do |opt, arg|
+  case opt
+  when "--help"
+    usage()
+    exit(0)
+  when "--taintmail"
+    taintmail = arg
+    next
+  when "--cleanmail"
+    cleanmail = arg
+    next
+  when "--index"
+    dbfile = !arg.empty? ? arg : dbfile 
+  when "--quiet"
+    quiet = true
+  else
+    STDERR.puts("Invalid option #{opt}")
+    usage()
+    exit(0)
+  end
+end
+
+b = Bayespam.new
+
+# If taintmail and cleanmail are specified then write a new probcache database file
+if !taintmail.empty? and !cleanmail.empty?
+  b.probability(taintmail, cleanmail) if test(?e,taintmail) and test(?e, cleanmail)
+  b.write_cache(dbfile)
+  STDERR.puts("Wrote index #{dbfile}") unless quiet
+  exit(0)
+# Otherwise load probcache from a file
+else
+  b.read_cache(dbfile)
+end
+
+# If no arguments are specified assume data is coming from STDIN
+if ARGV.empty?
+  if b.message_probability(STDIN) > .75
+    exit(0)
+  else
+    exit(1)
+  end
+# This is good for testing the accuracy of the filter
+else  
+  b.verbose = true
+  ARGV.each do |mesg|
+    puts mesg + " => " + sprintf("%.2f", b.message_probability(File.new(mesg, "r")))
+  end
+end

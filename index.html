@@ -1,0 +1,62 @@
+<table width="100%" align="center">
+<tr>
+ <td width="30%" valign="top">
+  <div class="sidetitle"> Tarball download </div>
+  <div class="recent">
+  <a href="bsproc-0.2.10.tar.gz">bsproc-0.2.10.tar.gz</a><br/>
+  <a href="bsproc-0.2.9.tar.gz">bsproc-0.2.9.tar.gz</a><br/>
+  <a href="bsproc-0.2.8.tar.gz">bsproc-0.2.8.tar.gz</a><br/>
+  <a href="bsproc-0.2.7.tar.gz">bsproc-0.2.7.tar.gz</a><br/>
+  <a href="bsproc-0.2.6.tar.gz">bsproc-0.2.6.tar.gz</a><br/>
+  </div>
+  <div class="sidetitle"> Available files </div>
+  <div class="recent">
+  <a href="bsproc-latest/">bsproc-latest/</a><br/>
+  <a href="bsproc-latest/README">bsproc-latest/README</a><br/>
+  <a href="bsproc-latest/AUTHORS">bsproc-latest/AUTHORS</a><br/>
+  <a href="bsproc-latest/install.rb">bsproc-latest/install.rb</a><br/>
+  <a href="bsproc-latest/bayespam.rb">bsproc-latest/bayespam.rb</a><br/>
+  <a href="bsproc-latest/bsproc">bsproc-latest/bsproc</a><br/>
+  <a href="bsproc-latest/ext/extconf.rb">bsproc-latest/ext/extconf.rb</a><br/>
+  <a href="bsproc-latest/ext/hashsucc.c">bsproc-latest/ext/hashsucc.c</a><br/>
+  </div>
+ </td>
+ <td>
+  <table cellspacing="20">
+   <tr>
+    <td align="center">Bayespam.rb and bsproc Bayesian spam filter utility</td>
+   </tr>
+   <tr>
+    <td>
+Designed with <a href="http://web.archive.org/web/20040607224854/http://www.paulgraham.com/">Paul Graham</a>'s <a href="http://web.archive.org/web/20040607224854/http://www.paulgraham.com/spam.html">A Plan for Spam</a> in mind.  A bayesian spam filter library bayespam.rb provides a process for indexing your current email and parsing each new email to discriminate your mail from unsolicited crap.  Bsproc is a command line tool that will create an index and can be run by procmail on incoming mail. We got some lexical analysis hints from <a href="http://web.archive.org/web/20040607224854/http://www.catb.org/~esr/">Eric S. Raymond</a>'s <a href="http://web.archive.org/web/20040607224854/http://sourceforge.net/projects/bogofilter/">bogofilter</a>.<br/><br/>
+
+Bayespam.rb and bsproc are both Ruby code and thus will require Ruby be installed wherever you intend to use either.  We use bsproc on various flavors of Linux.  We have not tested it on any other platforms.  Let us know if you have.  Bayespam.rb and bsproc are <a href="http://web.archive.org/web/20040607224854/http://www.fsf.org/philosophy/free-sw.html">free software</a> licensed under the <a href="http://web.archive.org/web/20040607224854/http://www.gnu.org/copyleft/gpl.html">GPL</a>.<br/><br/>
+
+We are now working on remodeling after <a href="http://web.archive.org/web/20040607224854/http://www.paulgraham.com/">Paul Graham</a>'s <a href="http://web.archive.org/web/20040607224854/http://www.paulgraham.com/better.html">Better Bayesian Filtering</a>.
+
+
+    </td>
+   </tr>
+   <tr><td align="center">Updates</td></tr>
+   <tr>
+    <td>
+<strong>04.22.03</strong> : <a href="bsproc-0.2.10.tar.gz">0.2.10</a> is released.  After ignoring bsproc for a few months we have been reinvigorated by the potential of some new developers.  This release cleans up the object API a bit and adds a lot of comments to the code.  This was all taken care of by Travis to help people start hacking at bsproc.  A new developer (I will make available his name and email when he OKs it) has shown a lot of effort in making bsproc work more practically.  We are discussing changes like making the index evolutionary and making the index a BDB disk hash.  The next release will have some major changes.
+    </td>
+   </tr>
+   <tr>
+    <td>
+<strong>02.21.03</strong> :  <a href="bsproc-0.2.9.tar.gz">0.2.9</a> is released.  In further proof of his indelible speed freakishness Travis found that Ruby's Marshalling that we were using for the cache was making up most of the execution time when generating the cache.  So now it dumps straight to ASCII.<br/>
+<br/>
+<a href="bsproc-0.2.8.tar.gz">0.2.8</a> is released.  Travis went insane trying to cram the indexing process of bsproc into an ever decreasing number of seconds.  It started innocently enough with <a href="http://web.archive.org/web/20040607224854/http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/65270">this post</a> to ruby-talk and by the end of it, with a dose of help from several people on the list, we end up with a C optimized hash.succ! function (contributed by MoonWolf) that has to be compiled on installation.  Make sure to read the <a href="bsproc-latest/README">bsproc-latest/README</a> for installation instructions.
+    </td>
+   </tr>
+   <tr>
+    <td>
+<strong>02.18.03</strong> :  <a href="bsproc-0.2.7.tar.gz">0.2.7</a> is released.  Travis made some philosophical updates to limit bsproc's liberal consumption of memory.  Base64 encoded messages are now decoded and their contents scrutinized.  Bundles of efficiency enhancements.
+
+    </td>
+   </tr>
+   </table>
+ </td>
+</tr>
+</table>
